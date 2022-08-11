@@ -31,7 +31,7 @@ The music copyright scenario is unclear,
 
 
 ## death sound  
-End music is from Pac-Man?  
+End music is from mario.  
 1. Again, with 5ms fade-in 
 
 ## replay option
