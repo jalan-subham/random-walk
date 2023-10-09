@@ -1,4 +1,4 @@
-# Random Walk
+# Random Walk 🐿️ on a lonely island
 
 I need to add visuals!
 
