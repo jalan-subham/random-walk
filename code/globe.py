@@ -3,10 +3,9 @@
 
 import pygame
 import os
-import math  # for math.e, for intelligently handling Squirel.height
-
+# import math
+# for math.e, for intelligently handling Squirel.height
 # this file includes all the parameters, variables, and initialisers
-
 # Window globals
 
 
@@ -65,8 +64,8 @@ class Island(object):
 class Squirrel(object):
 
     asp_ratio = 1 / 1  # w:h
-
-    # * (math.e ** (-Island.length / 1000))  # !! this makes it very necessary to define island properties before squirel
+    # * (math.e ** (-Island.length / 1000))
+    # !! this makes it very necessary to define island properties before squirel
     height = Island.height * (1 / 10)
     width = height * asp_ratio  # in px
 
@@ -97,12 +96,16 @@ class Squirrel(object):
 
     num_hops = 0
 
+    # probability of jumping right (and consequently left
+    p_right = 0.5
+    p_left = 1 - p_right
+
 
 # Coin globals
 class Coin(object):  # Coin_Window actually
 
     asp_ratio = 1 / 1  # w:h
-    
+
     height = Island.height * (1 / 4)
     width = height * asp_ratio
 

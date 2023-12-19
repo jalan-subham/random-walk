@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-# This file calls variables defined in globe.py, 
+# This file calls variables defined in globe.py,
 # and functions defined in utility.py
 
 def main():
@@ -18,4 +18,3 @@ if __name__ == "__main__":
     from code import utility
 
     main()
-

@@ -6,8 +6,6 @@ import globe
 import pygame
 import random
 
-p_left = 0
-p_right = 1
 
 def init_game():
     global screen_surf
@@ -20,6 +18,7 @@ def init_game():
     screen_surf = pygame.display.set_mode(
         size=globe.Window.size, flags=pygame.RESIZABLE, display=0)
     # [display window should be sizeable](https://www.pygame.org/docs/ref/display.html#pygame.display.set_mode)
+    print("hi, malhar here")
 
     pygame.display.set_caption(globe.Window.title, globe.Window.small_title)
 
@@ -111,7 +110,10 @@ def player(screen_surf, background_surf, coin_surf, tree_surf, squirrel_surf, bg
 
     else:
 
-        jump = random.choices([-1, 1], weights = [p_left, p_right], k = 1)[0]
+        jump = random.choices([-1, 1],
+                              weights=[globe.Squirrel.p_left,
+                                       globe.Squirrel.p_right],
+                              k=1)[0]
 
         globe.Squirrel.num_hops += 1
         globe.Squirrel.cur_pos += jump
@@ -289,13 +291,11 @@ def game_loop():
     dead = False
     bool_running = True
     while bool_running:
-
         # This is important for programs that want to share the system with other applications.
         # pygame.event.pump()  # to allow pygame to handle internal actions, calls the event queue
         # current_event = pygame.event.wait()  # fetches one event
 
         for current_event in pygame.event.get():
-
             if current_event.type == pygame.QUIT:
                 # checking for quit
                 bool_running = False
@@ -316,7 +316,6 @@ def game_loop():
             elif current_event.type == pygame.VIDEORESIZE:
                 # in the running frame it is updated later on:
                 bg_size = current_event.dict["size"]
-
         if not dead and started:
             # if game already started
             success, dead, started = player(
