@@ -96,9 +96,13 @@ class Squirrel(object):
 
     num_hops = 0
 
-    # probability of jumping right (and consequently left
+    # probability of jumping right (and consequently left)
     p_right = 0.5
     p_left = 1 - p_right
+
+    # left and right step sizes (why not)
+    left_stepsize = 1
+    right_stepsize = 1
 
 
 # Coin globals

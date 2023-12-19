@@ -110,7 +110,8 @@ def player(screen_surf, background_surf, coin_surf, tree_surf, squirrel_surf, bg
 
     else:
 
-        jump = random.choices([-1, 1],
+        jump = random.choices([-1*globe.Squirrel.left_stepsize,
+                               1*globe.Squirrel.right_stepsize],
                               weights=[globe.Squirrel.p_left,
                                        globe.Squirrel.p_right],
                               k=1)[0]
@@ -121,7 +122,7 @@ def player(screen_surf, background_surf, coin_surf, tree_surf, squirrel_surf, bg
         globe.Tree.choices.append(
             [None for _ in range(0, globe.Island.length + 1)])
 
-        if jump == -1:
+        if jump == -1*globe.Squirrel.left_stepsize:
             # Tails or Left Jump
             coin_toss(screen_surf, background_surf, coin_surf, bg_size, -1)
             # I am not sure what this does
@@ -132,7 +133,7 @@ def player(screen_surf, background_surf, coin_surf, tree_surf, squirrel_surf, bg
             globe.Tree.choices[globe.Squirrel.num_hops][globe.Squirrel.cur_pos] = [
                 False, True, "Red"]
 
-        elif jump == 1:
+        elif jump == 1*globe.Squirrel.right_stepsize:
             # Heads or Right Jump
             coin_toss(screen_surf, background_surf, coin_surf, bg_size, 1)
             # I am not sure what this does
