@@ -6,6 +6,8 @@ import globe
 import pygame
 import random
 
+p_left = 0
+p_right = 1
 
 def init_game():
     global screen_surf
@@ -109,7 +111,7 @@ def player(screen_surf, background_surf, coin_surf, tree_surf, squirrel_surf, bg
 
     else:
 
-        jump = random.choice(([-1, 1]))
+        jump = random.choices([-1, 1], weights = [p_left, p_right], k = 1)[0]
 
         globe.Squirrel.num_hops += 1
         globe.Squirrel.cur_pos += jump
