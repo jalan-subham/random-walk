@@ -117,7 +117,7 @@ def player(screen_surf, background_surf, coin_surf, tree_surf, squirrel_surf, bg
 
         jump = random.choices([-1*globe.Squirrel.left_stepsize,
                                1*globe.Squirrel.right_stepsize],
-                              weights=[globe.Squirrel.p_left,
+                              weights=[1 - globe.Squirrel.p_right,
                                        globe.Squirrel.p_right],
                               k=1)[0]
 
@@ -290,7 +290,7 @@ def game_loop():
     init_pos = globe.Squirrel.cur_pos
     bg_size = screen_surf.get_size()
 
-    background, coin_surf, tree_surf, squirrel_surf, button, slider = background_load(
+    background, coin_surf, tree_surf, squirrel_surf, slider = background_load(
         screen_surf)
 
     started = False
@@ -300,6 +300,8 @@ def game_loop():
         # This is important for programs that want to share the system with other applications.
         # pygame.event.pump()  # to allow pygame to handle internal actions, calls the event queue
         # current_event = pygame.event.wait()  # fetches one event
+
+        time_delta = globe.Game.clock.tick(60)/1000.0
 
         for current_event in pygame.event.get():
             if current_event.type == pygame.QUIT:
@@ -325,13 +327,16 @@ def game_loop():
             if current_event.type == pygame.USEREVENT:
                 if current_event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     # Perform action when a button is pressed
-                    if current_event.ui_element == button:
-                        print("Button clicked!")
+                    # if current_event.ui_element == button:
+                    #     print("Button clicked!")
+                    pass
                 elif current_event.user_type == pygame_gui.UI_HORIZONTAL_SLIDER_MOVED:
                     # Update parameter values when a slider is moved
                     if current_event.ui_element == slider:
                         value = current_event.ui_element.get_current_value()
                         print(f"Slider moved to {value}")
+                        globe.Squirrel.p_right = value
+            ui_manager.process_events(current_event)
 
         if not dead and started:
             # if game already started
@@ -342,6 +347,9 @@ def game_loop():
                 update_background(screen_surf, background,
                                   coin_surf, tree_surf, squirrel_surf, bg_size)
 
+        ui_manager.update(time_delta)
+        if dead or not started:
+            ui_manager.draw_ui(screen_surf)
         globe.Game.clock.tick(globe.Game.fps)  # I am not sure what this does
         pygame.display.flip()  # updating the frame
 
@@ -389,6 +397,10 @@ def background_load(screen_surf) -> tuple[pygame.Surface, pygame.Surface, pygame
     tree_surf.blit(tree_text, accurate_draw(
         tree_text, (globe.Tree.width / 2, globe.Tree.height * 9 / 10)))
 
+    slider = pygame_gui.elements.UIHorizontalSlider(relative_rect=pygame.Rect((50, 150), (200, 30)),
+                                                    start_value=.5,
+                                                    value_range=(0.0, 1.0),
+                                                    manager=ui_manager)
     # ------------
     background.blit(text, text_pos)
     screen_surf.blit(pygame.transform.scale(background, bg_size), (0, 0))
@@ -396,17 +408,10 @@ def background_load(screen_surf) -> tuple[pygame.Surface, pygame.Surface, pygame
     globe.Game.clock.tick(globe.Game.fps)  # I am not sure what this does
     pygame.display.flip()  # updating the frame
 
-    slider = pygame_gui.elements.UIHorizontalSlider(relative_rect=pygame.Rect((50, 150), (200, 20)),
-                                                    start_value=50,
-                                                    value_range=(0.0, 1.0),
-                                                    manager=ui_manager)
-    button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 50), (100, 50)),
-                                          text='Click Me!',
-                                          manager=ui_manager)
     """
     """
 
-    return background, coin_surf, tree_surf, squirrel_surf, button, slider
+    return background, coin_surf, tree_surf, squirrel_surf, slider
 
 
 def update_background(screen_surf, background: pygame.Surface, coin_surf, tree_surf, squirrel_surf, bg_size):

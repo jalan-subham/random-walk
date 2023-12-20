@@ -37,8 +37,7 @@ class Window(object):
     death_music = os.path.join(os.path.dirname(
         __file__), "../assets/music/pacman_die.mp3")
 
-    fontpath = os.path.join(os.path.dirname(__file__),
-                        "../assets/fonts/courier.ttf")
+    fontpath = os.path.join(os.path.dirname(__file__), "../assets/fonts/courier.ttf")
     font_size = 30
     # font = pygame.font.Font(fontpath, int(font_size / 2))
     # ui_manager = pygame_gui.UIManager(size)
@@ -100,7 +99,6 @@ class Squirrel(object):
 
     # probability of jumping right (and consequently left)
     p_right = 0.5
-    p_left = 1 - p_right
 
     # left and right step sizes (why not)
     left_stepsize = 1
