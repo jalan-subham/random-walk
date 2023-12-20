@@ -228,8 +228,8 @@ def text_on_screen(message: str, coordinates: tuple | pygame.Rect, color: tuple,
     coordinates: coordinates relative to the surface that the text goes on
     """
 
-    font = pygame.font.Font(globe.Window.font, int(globe.Window.font_size / 2))
-    text = font.render(message, True, color)  # True for anti-aliasing
+    # font = pygame.font.Font(globe.Window.font, int(globe.Window.font_size / 2))
+    text = globe.Window.font.render(message, True, color)  # True for anti-aliasing
 
     if ref_surf is None:
         text_pos = accurate_draw(text, coordinates)

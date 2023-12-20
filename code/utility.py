@@ -5,12 +5,16 @@ import math
 import globe
 import pygame
 import random
+import pygame_gui
 
 
 def init_game():
     global screen_surf
+    global ui_manager
 
     pygame.init()
+    font = pygame.font.Font(globe.Window.fontpath, int(globe.Window.font_size / 2))
+    ui_manager = pygame_gui.UIManager(globe.Window.size)
 
     # before set_mode line, as advised in Doc
     pygame.display.set_icon(globe.Window.icon)
@@ -19,6 +23,7 @@ def init_game():
         size=globe.Window.size, flags=pygame.RESIZABLE, display=0)
     # [display window should be sizeable](https://www.pygame.org/docs/ref/display.html#pygame.display.set_mode)
     print("hi, malhar here")
+
 
     pygame.display.set_caption(globe.Window.title, globe.Window.small_title)
 
@@ -33,11 +38,11 @@ def text_on_screen(message: str, coordinates: tuple | pygame.Rect, color: tuple,
     if font_size == None:
 
         font = pygame.font.Font(
-            globe.Window.font, int(globe.Window.font_size / 1))
+            globe.Window.fontpath, int(globe.Window.font_size / 1))
 
     else:
 
-        font = pygame.font.Font(globe.Window.font, int(font_size))
+        font = pygame.font.Font(globe.Window.fontpath, int(font_size))
 
     text = font.render(message, True, color)  # True for anti-aliasing
 
@@ -285,7 +290,7 @@ def game_loop():
     init_pos = globe.Squirrel.cur_pos
     bg_size = screen_surf.get_size()
 
-    background, coin_surf, tree_surf, squirrel_surf = background_load(
+    background, coin_surf, tree_surf, squirrel_surf, button, slider = background_load(
         screen_surf)
 
     started = False
@@ -317,6 +322,17 @@ def game_loop():
             elif current_event.type == pygame.VIDEORESIZE:
                 # in the running frame it is updated later on:
                 bg_size = current_event.dict["size"]
+            if current_event.type == pygame.USEREVENT:
+                if current_event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    # Perform action when a button is pressed
+                    if current_event.ui_element == button:
+                        print("Button clicked!")
+                elif current_event.user_type == pygame_gui.UI_HORIZONTAL_SLIDER_MOVED:
+                    # Update parameter values when a slider is moved
+                    if current_event.ui_element == slider:
+                        value = current_event.ui_element.get_current_value()
+                        print(f"Slider moved to {value}")
+
         if not dead and started:
             # if game already started
             success, dead, started = player(
@@ -380,7 +396,17 @@ def background_load(screen_surf) -> tuple[pygame.Surface, pygame.Surface, pygame
     globe.Game.clock.tick(globe.Game.fps)  # I am not sure what this does
     pygame.display.flip()  # updating the frame
 
-    return background, coin_surf, tree_surf, squirrel_surf
+    slider = pygame_gui.elements.UIHorizontalSlider(relative_rect=pygame.Rect((50, 150), (200, 20)),
+                                                    start_value=50,
+                                                    value_range=(0.0, 1.0),
+                                                    manager=ui_manager)
+    button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 50), (100, 50)),
+                                          text='Click Me!',
+                                          manager=ui_manager)
+    """
+    """
+
+    return background, coin_surf, tree_surf, squirrel_surf, button, slider
 
 
 def update_background(screen_surf, background: pygame.Surface, coin_surf, tree_surf, squirrel_surf, bg_size):

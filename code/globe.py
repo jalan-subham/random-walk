@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import pygame
+import pygame_gui
 import os
 # import math
 # for math.e, for intelligently handling Squirel.height
@@ -28,7 +29,6 @@ class Window(object):
 
     icon = pygame.image.load(os.path.join(
         os.path.dirname(__file__), "../assets/image/plaksha.png"))
-
     rel_padding = 0.13
     hor_padding = rel_padding * width
 
@@ -37,9 +37,11 @@ class Window(object):
     death_music = os.path.join(os.path.dirname(
         __file__), "../assets/music/pacman_die.mp3")
 
-    font = os.path.join(os.path.dirname(__file__),
+    fontpath = os.path.join(os.path.dirname(__file__),
                         "../assets/fonts/courier.ttf")
     font_size = 30
+    # font = pygame.font.Font(fontpath, int(font_size / 2))
+    # ui_manager = pygame_gui.UIManager(size)
 
 
 # Island globals
