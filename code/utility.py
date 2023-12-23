@@ -24,7 +24,6 @@ def init_game():
     # [display window should be sizeable](https://www.pygame.org/docs/ref/display.html#pygame.display.set_mode)
     print("hi, malhar here")
 
-
     pygame.display.set_caption(globe.Window.title, globe.Window.small_title)
 
 
@@ -150,7 +149,6 @@ def player(screen_surf, background_surf, coin_surf, tree_surf, squirrel_surf, bg
                 True, False, "Red"]
 
         else:
-
             raise "Error with Random Choice from list [-1, 1]"
 
         globe.Tree.nodes.append([])
@@ -278,7 +276,7 @@ def return_surface(size: tuple, init_color: tuple | None, mode: str = None, shap
             surface.fill(init_color)
         else:
             if shape == "circle":
-                print("A circle")
+                # print("A circle")
                 pygame.draw.circle(surface, init_color,
                                    surface.get_rect().center, size[0] / 2)
 
@@ -290,7 +288,7 @@ def game_loop():
     init_pos = globe.Squirrel.cur_pos
     bg_size = screen_surf.get_size()
 
-    background, coin_surf, tree_surf, squirrel_surf, slider = background_load(
+    background, coin_surf, tree_surf, squirrel_surf, prob_slider, initpos_slider = background_load(
         screen_surf)
 
     started = False
@@ -332,10 +330,15 @@ def game_loop():
                     pass
                 elif current_event.user_type == pygame_gui.UI_HORIZONTAL_SLIDER_MOVED:
                     # Update parameter values when a slider is moved
-                    if current_event.ui_element == slider:
+                    if current_event.ui_element == prob_slider:
                         value = current_event.ui_element.get_current_value()
-                        print(f"Slider moved to {value}")
+                        print(f"Probability Slider moved to {value}")
                         globe.Squirrel.p_right = value
+                    if current_event.ui_element == initpos_slider:
+                        value = current_event.ui_element.get_current_value()
+                        print(f"InitPos Slider moved to {value}")
+                        globe.Squirrel.init_pos = value
+                        globe.Squirrel.cur_pos = value
             ui_manager.process_events(current_event)
 
         if not dead and started:
@@ -397,10 +400,14 @@ def background_load(screen_surf) -> tuple[pygame.Surface, pygame.Surface, pygame
     tree_surf.blit(tree_text, accurate_draw(
         tree_text, (globe.Tree.width / 2, globe.Tree.height * 9 / 10)))
 
-    slider = pygame_gui.elements.UIHorizontalSlider(relative_rect=pygame.Rect((50, 150), (200, 30)),
-                                                    start_value=.5,
-                                                    value_range=(0.0, 1.0),
-                                                    manager=ui_manager)
+    prob_slider = pygame_gui.elements.UIHorizontalSlider(relative_rect=pygame.Rect((50, 150), (200, 30)),
+                                                         start_value=.5,
+                                                         value_range=(0.0, 1.0),
+                                                         manager=ui_manager)
+    initpos_slider = pygame_gui.elements.UIHorizontalSlider(relative_rect=pygame.Rect((50, 200), (200, 30)),
+                                                            start_value=globe.Squirrel.cur_pos,
+                                                            value_range=(0, globe.Island.length),
+                                                            manager=ui_manager)
     # ------------
     background.blit(text, text_pos)
     screen_surf.blit(pygame.transform.scale(background, bg_size), (0, 0))
@@ -411,7 +418,7 @@ def background_load(screen_surf) -> tuple[pygame.Surface, pygame.Surface, pygame
     """
     """
 
-    return background, coin_surf, tree_surf, squirrel_surf, slider
+    return background, coin_surf, tree_surf, squirrel_surf, prob_slider, initpos_slider
 
 
 def update_background(screen_surf, background: pygame.Surface, coin_surf, tree_surf, squirrel_surf, bg_size):
