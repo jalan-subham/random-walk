@@ -13,7 +13,8 @@ def init_game():
     global ui_manager
 
     pygame.init()
-    font = pygame.font.Font(globe.Window.fontpath, int(globe.Window.font_size / 2))
+    font = pygame.font.Font(globe.Window.fontpath,
+                            int(globe.Window.font_size / 2))
     ui_manager = pygame_gui.UIManager(globe.Window.size)
 
     # before set_mode line, as advised in Doc
@@ -79,9 +80,21 @@ def death_player(screen_surf, background_surf, coin_surf, tree_surf, squirrel_su
     # Text on screen
     text, text_pos = text_on_screen(
         globe.Window.end_message, background_surf.get_rect().center, (255, 255, 255, 1))
+    text_s1, text_pos_s1 = text_on_screen(
+        globe.Window.probslider_message,
+        [sum(x) for x in zip(background_surf.get_rect().center, (0, 50))], (255, 255, 255, 1),
+        font_size=globe.Window.font_size / 1.5
+    )
+    text_s2, text_pos_s2 = text_on_screen(
+        globe.Window.initposslider_message,
+        [sum(x) for x in zip(background_surf.get_rect().center, (0, 120))], (255, 255, 255, 1),
+        font_size=globe.Window.font_size / 1.5
+    )
     background_surf.blit(text, text_pos)
     background_surf.blit(last_squirrel_surf, accurate_draw(
         last_squirrel_surf, (squirrel_location(), death_y)))
+    background_surf.blit(text_s1, text_pos_s1)
+    background_surf.blit(text_s2, text_pos_s2)
 
     screen_surf.blit(pygame.transform.scale(background_surf, bg_size), (0, 0))
     globe.Game.clock.tick(globe.Game.fps)  # I am not sure what this does
@@ -202,14 +215,14 @@ def coin_toss(screen_surf, background, coin_surf, bg_size, mode):
         img = globe.Coin.tails_img.convert_alpha()
     else:
         img = globe.Coin.heads_img.convert_alpha()
-    empty = pygame.Color(0,0,0,0)
+    empty = pygame.Color(0, 0, 0, 0)
     while angle < math.pi / 2 + smoothness:
-        
+
         # pygame.draw.circle(coin_surf, (250, 250, 250, 1),
         #                    coin_surf.get_rect().center, globe.Coin.size[0] / 2)  # HARD CODING SOME STUFF
-        coin_surf.fill(empty) 
+        coin_surf.fill(empty)
         angle += smoothness
-        
+
         x_width = globe.Coin.coin_size[0] * math.sin(angle)
 
         temp_img = pygame.transform.scale(
@@ -350,6 +363,7 @@ def game_loop():
                 update_background(screen_surf, background,
                                   coin_surf, tree_surf, squirrel_surf, bg_size)
 
+        # for UI elements => sliders buttons etc
         ui_manager.update(time_delta)
         if dead or not started:
             ui_manager.draw_ui(screen_surf)
@@ -368,6 +382,20 @@ def background_load(screen_surf) -> tuple[pygame.Surface, pygame.Surface, pygame
     text, text_pos = text_on_screen(
         globe.Window.start_message, background.get_rect().center, (255, 255, 255, 1))
 
+    # Text for probability slider
+    text_s1, text_pos_s1 = text_on_screen(
+        globe.Window.probslider_message,
+        [sum(x) for x in zip(background.get_rect().center, (0, 50))], (255, 255, 255, 1),
+        font_size=globe.Window.font_size / 1.5
+    )
+
+    # Text for initpos slider
+    text_s2, text_pos_s2 = text_on_screen(
+        globe.Window.initposslider_message,
+        [sum(x) for x in zip(background.get_rect().center, (0, 120))], (255, 255, 255, 1),
+        font_size=globe.Window.font_size / 1.5
+    )
+
     # Squirrel Surface
     squirrel_surf = return_surface(
         size=globe.Squirrel.size, init_color=(0, 0, 0, 0), mode="convert_alpha")
@@ -379,7 +407,8 @@ def background_load(screen_surf) -> tuple[pygame.Surface, pygame.Surface, pygame
     coin_surf.blit(globe.Coin.heads_img.convert_alpha(),
                    accurate_draw(globe.Coin.heads_img, coin_surf.get_rect().center))
 
-    pygame.draw.rect(coin_surf, (250, 250, 250, 0.5), coin_surf.get_rect(), width=3)
+    pygame.draw.rect(coin_surf, (250, 250, 250, 0.5),
+                     coin_surf.get_rect(), width=3)
     coin_pos = accurate_draw(coin_surf, globe.Coin.abs_pos)
     # Coin Text on screen
     coin_text, coin_pos = text_on_screen(message="-----", coordinates=coin_pos.center, color=(250, 250, 250, 1),
@@ -400,23 +429,27 @@ def background_load(screen_surf) -> tuple[pygame.Surface, pygame.Surface, pygame
     tree_surf.blit(tree_text, accurate_draw(
         tree_text, (globe.Tree.width / 2, globe.Tree.height * 9 / 10)))
 
-    prob_slider = pygame_gui.elements.UIHorizontalSlider(relative_rect=pygame.Rect((50, 150), (200, 30)),
+    # prob_slider = pygame_gui.elements.UIHorizontalSlider(relative_rect=pygame.Rect((50, 150), (200, 30)),
+    prob_slider = pygame_gui.elements.UIHorizontalSlider(relative_rect=pygame.Rect(globe.Window.probslider_pos,
+                                                                                   globe.Window.probslider_size),
                                                          start_value=.5,
                                                          value_range=(0.0, 1.0),
                                                          manager=ui_manager)
-    initpos_slider = pygame_gui.elements.UIHorizontalSlider(relative_rect=pygame.Rect((50, 200), (200, 30)),
+    # initpos_slider = pygame_gui.elements.UIHorizontalSlider(relative_rect=pygame.Rect((50, 200), (200, 30)),
+    initpos_slider = pygame_gui.elements.UIHorizontalSlider(relative_rect=pygame.Rect(globe.Window.initposslider_pos,
+                                                                                      globe.Window.initposslider_size),
                                                             start_value=globe.Squirrel.cur_pos,
                                                             value_range=(0, globe.Island.length),
                                                             manager=ui_manager)
+
     # ------------
     background.blit(text, text_pos)
+    background.blit(text_s1, text_pos_s1)
+    background.blit(text_s2, text_pos_s2)
     screen_surf.blit(pygame.transform.scale(background, bg_size), (0, 0))
 
     globe.Game.clock.tick(globe.Game.fps)  # I am not sure what this does
     pygame.display.flip()  # updating the frame
-
-    """
-    """
 
     return background, coin_surf, tree_surf, squirrel_surf, prob_slider, initpos_slider
 

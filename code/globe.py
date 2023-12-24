@@ -27,6 +27,14 @@ class Window(object):
     start_message = "Welcome!, press Spacebar to start!"
     end_message = "Press spacebar to play again!"
 
+    probslider_size = (200, 30)
+    probslider_pos = (width / 2 - probslider_size[0] / 2, height / 2 + 70)
+    probslider_message = "Probability of jumping right (0-1)"
+
+    initposslider_size = (200, 30)
+    initposslider_pos = (width / 2 - initposslider_size[0] / 2, height / 2 + 140)
+    initposslider_message = "Initial position (0-36)"
+
     icon = pygame.image.load(os.path.join(
         os.path.dirname(__file__), "../assets/image/plaksha.png"))
     rel_padding = 0.13
