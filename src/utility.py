@@ -23,7 +23,7 @@ def init_game():
     screen_surf = pygame.display.set_mode(
         size=globe.Window.size, flags=pygame.RESIZABLE, display=0)
     # [display window should be sizeable](https://www.pygame.org/docs/ref/display.html#pygame.display.set_mode)
-    print("hi, malhar here")
+    print("hi, this is malhar here")
 
     pygame.display.set_caption(globe.Window.title, globe.Window.small_title)
 
@@ -399,7 +399,7 @@ def background_load(screen_surf) -> tuple[pygame.Surface, pygame.Surface, pygame
     # Squirrel Surface
     squirrel_surf = return_surface(
         size=globe.Squirrel.size, init_color=(0, 0, 0, 0), mode="convert_alpha")
-    squirrel_surf.blit(globe.Squirrel.img.convert(), (0, 0))
+    squirrel_surf.blit(globe.Squirrel.img.convert_alpha(), (0, 0))
 
     # Coin Window Surface
     coin_surf = return_surface(

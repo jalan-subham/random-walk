@@ -13,8 +13,10 @@ def main():
 if __name__ == "__main__":
     import os
     import sys
-    sys.path.append(os.path.abspath("./code/"))
+    sys.path.append(os.path.abspath("./src/"))
 
-    from code import utility
+    # from code import utility
+    # import code.utility as utility
+    from src import utility
 
     main()
