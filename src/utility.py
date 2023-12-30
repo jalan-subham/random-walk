@@ -304,6 +304,9 @@ def game_loop():
     background, coin_surf, tree_surf, squirrel_surf, prob_slider, initpos_slider = background_load(
         screen_surf)
 
+    text_position_prob = (50, 50)
+    text_position_initpos = (50, 100)
+
     started = False
     dead = False
     bool_running = True
@@ -336,22 +339,38 @@ def game_loop():
                 # in the running frame it is updated later on:
                 bg_size = current_event.dict["size"]
             if current_event.type == pygame.USEREVENT:
-                if current_event.user_type == pygame_gui.UI_BUTTON_PRESSED:
-                    # Perform action when a button is pressed
-                    # if current_event.ui_element == button:
-                    #     print("Button clicked!")
-                    pass
-                elif current_event.user_type == pygame_gui.UI_HORIZONTAL_SLIDER_MOVED:
+                if current_event.user_type == pygame_gui.UI_HORIZONTAL_SLIDER_MOVED:
                     # Update parameter values when a slider is moved
+                    font = pygame.font.Font(globe.Window.fontpath, int(globe.Window.font_size / 2))
+
                     if current_event.ui_element == prob_slider:
                         value = current_event.ui_element.get_current_value()
                         print(f"Probability Slider moved to {value}")
                         globe.Squirrel.p_right = value
+
+                        xpos1 = background.get_rect().center[0] + 120
+                        xpos2 = background.get_rect().center[0] - 230
+                        ypos = background.get_rect().center[1] + 75
+                        # screen_surf.fill((0, 0, 0), (50, 50, 120, 20))
+                        screen_surf.fill((0, 0, 0), (xpos1, ypos, 120, 15))
+                        screen_surf.fill((0, 0, 0), (xpos2, ypos, 110, 15))
+                        text_surface_probr = font.render(f"p_right: {round(value, 2)}", True, (255, 255, 255))
+                        text_surface_probl = font.render(f"p_left: {round(1-value, 2)}", True, (255, 255, 255))
+                        screen_surf.blit(text_surface_probr, (xpos1, ypos))
+                        screen_surf.blit(text_surface_probl, (xpos2, ypos))
+
                     if current_event.ui_element == initpos_slider:
                         value = current_event.ui_element.get_current_value()
                         print(f"InitPos Slider moved to {value}")
                         globe.Squirrel.init_pos = value
                         globe.Squirrel.cur_pos = value
+
+                        xpos = background.get_rect().center[0] + 70
+                        ypos = background.get_rect().center[1] + 113
+                        screen_surf.fill((0, 0, 0), (xpos, ypos, 20, 12))
+                        text_surface_initpos = font.render(f"{value}", True, (255, 255, 255))
+                        screen_surf.blit(text_surface_initpos, (xpos, ypos))
+
             ui_manager.process_events(current_event)
 
         if not dead and started:
@@ -429,13 +448,11 @@ def background_load(screen_surf) -> tuple[pygame.Surface, pygame.Surface, pygame
     tree_surf.blit(tree_text, accurate_draw(
         tree_text, (globe.Tree.width / 2, globe.Tree.height * 9 / 10)))
 
-    # prob_slider = pygame_gui.elements.UIHorizontalSlider(relative_rect=pygame.Rect((50, 150), (200, 30)),
     prob_slider = pygame_gui.elements.UIHorizontalSlider(relative_rect=pygame.Rect(globe.Window.probslider_pos,
                                                                                    globe.Window.probslider_size),
                                                          start_value=.5,
                                                          value_range=(0.0, 1.0),
                                                          manager=ui_manager)
-    # initpos_slider = pygame_gui.elements.UIHorizontalSlider(relative_rect=pygame.Rect((50, 200), (200, 30)),
     initpos_slider = pygame_gui.elements.UIHorizontalSlider(relative_rect=pygame.Rect(globe.Window.initposslider_pos,
                                                                                       globe.Window.initposslider_size),
                                                             start_value=globe.Squirrel.cur_pos,

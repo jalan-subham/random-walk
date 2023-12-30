@@ -33,7 +33,7 @@ class Window(object):
 
     initposslider_size = (200, 30)
     initposslider_pos = (width / 2 - initposslider_size[0] / 2, height / 2 + 140)
-    initposslider_message = "Initial position (0-36)"
+    initposslider_message = "Initial position       "
 
     icon = pygame.image.load(os.path.join(
         os.path.dirname(__file__), "../assets/image/plaksha.png"))
