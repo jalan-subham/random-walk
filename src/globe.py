@@ -96,6 +96,11 @@ class Squirrel(object):
     splash_img = pygame.transform.scale(
         splash_img, size)  # reversed image to save time
 
+    # set colorkeys
+    img.set_colorkey((0, 0, 0))
+    rev_img.set_colorkey((0, 0, 0))
+    splash_img.set_colorkey((0, 0, 0))
+
     rel_grid_pos = [Window.rel_padding + i *
                     (1 - 2 * Window.rel_padding) / Island.length for i in range(0, Island.length + 1)]
 
