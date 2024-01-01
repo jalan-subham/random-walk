@@ -14,7 +14,7 @@ class Window(object):
 
     asp_ratio = 2880 / 1442  # w:h, longer height to fit GUI Interactives
 
-    width = 1400  # in px
+    width = 1600  # in px
     height = width * asp_ratio ** -1  # in px
 
     size = (width, height)
@@ -24,16 +24,16 @@ class Window(object):
     title = "Random Walk on a Lonely Island"
     small_title = "Squeaky's Demise"
 
-    start_message = "Welcome!, press Spacebar to start!"
+    start_message = "Welcome! Press spacebar to start."
     end_message = "Press spacebar to play again!"
 
     probslider_size = (200, 30)
     probslider_pos = (width / 2 - probslider_size[0] / 2, height / 2 + 70)
-    probslider_message = "Probability of jumping right (0-1)"
+    probslider_message = "Set probability of jump direction"
 
     initposslider_size = (200, 30)
     initposslider_pos = (width / 2 - initposslider_size[0] / 2, height / 2 + 140)
-    initposslider_message = "Initial position       "
+    initposslider_message = "Set initial position       "
 
     icon = pygame.image.load(os.path.join(
         os.path.dirname(__file__), "../assets/image/plaksha.png"))

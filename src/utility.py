@@ -21,7 +21,9 @@ def init_game():
     pygame.display.set_icon(globe.Window.icon)
 
     screen_surf = pygame.display.set_mode(
-        size=globe.Window.size, flags=pygame.RESIZABLE, display=0)
+        size=globe.Window.size,
+        # flags=pygame.RESIZABLE,
+        display=0)
     # [display window should be sizeable](https://www.pygame.org/docs/ref/display.html#pygame.display.set_mode)
     print("hi, this is malhar here")
 
@@ -92,14 +94,14 @@ def death_player(screen_surf, background_surf, coin_surf, tree_surf, squirrel_su
     )
     font = pygame.font.Font(globe.Window.fontpath, int(globe.Window.font_size / 2))
     # live p values
-    xpos1 = background_surf.get_rect().center[0] + 120
-    xpos2 = background_surf.get_rect().center[0] - 230
-    yposp = background_surf.get_rect().center[1] + 75
-    text_surface_probr = font.render(f"p_right: {round(globe.Squirrel.p_right, 2)}", True, (255, 255, 255))
-    text_surface_probl = font.render(f"p_left: {round(1-globe.Squirrel.p_right, 2)}", True, (255, 255, 255))
+    xpos1 = screen_surf.get_rect().center[0] + 120
+    xpos2 = screen_surf.get_rect().center[0] - 270
+    yposp = screen_surf.get_rect().center[1] + 75
+    text_surface_probr = font.render(f"Prob(right) = {round(globe.Squirrel.p_right, 2)}", True, (255, 255, 255))
+    text_surface_probl = font.render(f"Prob(left) = {round(1-globe.Squirrel.p_right, 2)}", True, (255, 255, 255))
     # live initpos values
-    xpos = background_surf.get_rect().center[0] + 70
-    ypos = background_surf.get_rect().center[1] + 113
+    xpos = screen_surf.get_rect().center[0] + 90
+    ypos = screen_surf.get_rect().center[1] + 113
     text_surface_initpos = font.render(f"{globe.Squirrel.init_pos}", True, (255, 255, 255))
 
     background_surf.blit(text, text_pos)
@@ -109,8 +111,8 @@ def death_player(screen_surf, background_surf, coin_surf, tree_surf, squirrel_su
     background_surf.blit(text_s2, text_pos_s2)
 
     screen_surf.blit(pygame.transform.scale(background_surf, bg_size), (0, 0))
-    screen_surf.fill((0, 0, 0), (xpos1, yposp, 120, 15))
-    screen_surf.fill((0, 0, 0), (xpos2, yposp, 110, 15))
+    screen_surf.fill((0, 0, 0), (xpos1, yposp, 165, 13))
+    screen_surf.fill((0, 0, 0), (xpos2, yposp, 155, 13))
     screen_surf.blit(text_surface_probr, (xpos1, yposp))
     screen_surf.blit(text_surface_probl, (xpos2, yposp))
     screen_surf.fill((0, 0, 0), (xpos, ypos, 20, 12))
@@ -367,12 +369,12 @@ def game_loop():
                         globe.Squirrel.p_right = value
 
                         xpos1 = background.get_rect().center[0] + 120
-                        xpos2 = background.get_rect().center[0] - 230
+                        xpos2 = background.get_rect().center[0] - 270
                         ypos = background.get_rect().center[1] + 75
-                        screen_surf.fill((0, 0, 0), (xpos1, ypos, 120, 15))
-                        screen_surf.fill((0, 0, 0), (xpos2, ypos, 110, 15))
-                        text_surface_probr = font.render(f"p_right: {round(value, 2)}", True, (255, 255, 255))
-                        text_surface_probl = font.render(f"p_left: {round(1-value, 2)}", True, (255, 255, 255))
+                        screen_surf.fill((0, 0, 0), (xpos1, ypos, 165, 13))
+                        screen_surf.fill((0, 0, 0), (xpos2, ypos, 155, 13))
+                        text_surface_probr = font.render(f"Prob(right) = {round(value, 2)}", True, (255, 255, 255))
+                        text_surface_probl = font.render(f"Prob(left) = {round(1-value, 2)}", True, (255, 255, 255))
                         screen_surf.blit(text_surface_probr, (xpos1, ypos))
                         screen_surf.blit(text_surface_probl, (xpos2, ypos))
 
@@ -382,7 +384,7 @@ def game_loop():
                         globe.Squirrel.init_pos = value
                         globe.Squirrel.cur_pos = value
 
-                        xpos = background.get_rect().center[0] + 70
+                        xpos = background.get_rect().center[0] + 90
                         ypos = background.get_rect().center[1] + 113
                         screen_surf.fill((0, 0, 0), (xpos, ypos, 20, 12))
                         text_surface_initpos = font.render(f"{value}", True, (255, 255, 255))
@@ -436,13 +438,13 @@ def background_load(screen_surf) -> tuple[pygame.Surface, pygame.Surface, pygame
 
     # live p values
     xpos1 = background.get_rect().center[0] + 120
-    xpos2 = background.get_rect().center[0] - 230
+    xpos2 = background.get_rect().center[0] - 270
     yposp = background.get_rect().center[1] + 75
-    text_surface_probr = font.render(f"p_right: {round(globe.Squirrel.p_right, 2)}", True, (255, 255, 255))
-    text_surface_probl = font.render(f"p_left: {round(1-globe.Squirrel.p_right, 2)}", True, (255, 255, 255))
+    text_surface_probr = font.render(f"Prob(right) = {round(globe.Squirrel.p_right, 2)}", True, (255, 255, 255))
+    text_surface_probl = font.render(f"Prob(left) = {round(1-globe.Squirrel.p_right, 2)}", True, (255, 255, 255))
 
     # live initpos values
-    xpos = background.get_rect().center[0] + 70
+    xpos = background.get_rect().center[0] + 90
     ypos = background.get_rect().center[1] + 113
     text_surface_initpos = font.render(f"{globe.Squirrel.init_pos}", True, (255, 255, 255))
 
@@ -496,8 +498,8 @@ def background_load(screen_surf) -> tuple[pygame.Surface, pygame.Surface, pygame
     background.blit(text_s2, text_pos_s2)
     screen_surf.blit(pygame.transform.scale(background, bg_size), (0, 0))
 
-    screen_surf.fill((0, 0, 0), (xpos1, yposp, 120, 15))
-    screen_surf.fill((0, 0, 0), (xpos2, yposp, 110, 15))
+    screen_surf.fill((0, 0, 0), (xpos1, yposp, 165, 13))
+    screen_surf.fill((0, 0, 0), (xpos2, yposp, 155, 13))
     screen_surf.blit(text_surface_probr, (xpos1, yposp))
     screen_surf.blit(text_surface_probl, (xpos2, yposp))
     screen_surf.fill((0, 0, 0), (xpos, ypos, 20, 12))
