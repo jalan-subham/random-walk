@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import pygame
-import pygame_gui
+# import pygame_gui
 import os
 # import math
 # for math.e, for intelligently handling Squirel.height
