@@ -13,8 +13,7 @@ def init_game():
     global ui_manager
 
     pygame.init()
-    font = pygame.font.Font(globe.Window.fontpath,
-                            int(globe.Window.font_size / 2))
+    # font = pygame.font.Font(globe.Window.fontpath, int(globe.Window.font_size / 2))
     ui_manager = pygame_gui.UIManager(globe.Window.size)
 
     # before set_mode line, as advised in Doc
@@ -167,8 +166,7 @@ def player(screen_surf, background_surf, coin_surf, tree_surf, squirrel_surf, bg
 
             squirrel_surf = squirrel_draw(squirrel_surf, -1)
             coin_surf = coin_window(coin_surf, "TAILS", -1)
-            globe.Tree.choices[globe.Squirrel.num_hops][globe.Squirrel.cur_pos] = [
-                False, True, "Red"]
+            globe.Tree.choices[globe.Squirrel.num_hops][globe.Squirrel.cur_pos] = [ False, True, "Red"]
 
         elif jump == 1*globe.Squirrel.right_stepsize:
             # Heads or Right Jump
@@ -178,8 +176,7 @@ def player(screen_surf, background_surf, coin_surf, tree_surf, squirrel_surf, bg
 
             squirrel_surf = squirrel_draw(squirrel_surf, 1)
             coin_surf = coin_window(coin_surf, "HEADS", 1)
-            globe.Tree.choices[globe.Squirrel.num_hops][globe.Squirrel.cur_pos] = [
-                True, False, "Red"]
+            globe.Tree.choices[globe.Squirrel.num_hops][globe.Squirrel.cur_pos] = [ True, False, "Red"]
 
         else:
             raise "Error with Random Choice from list [-1, 1]"
@@ -318,14 +315,10 @@ def return_surface(size: tuple, init_color: tuple | None, mode: str = None, shap
 
 def game_loop():
     # utility globals
-    init_pos = globe.Squirrel.cur_pos
+    # init_pos = globe.Squirrel.cur_pos
     bg_size = screen_surf.get_size()
 
-    background, coin_surf, tree_surf, squirrel_surf, prob_slider, initpos_slider = background_load(
-        screen_surf)
-
-    text_position_prob = (50, 50)
-    text_position_initpos = (50, 100)
+    background, coin_surf, tree_surf, squirrel_surf, prob_slider, initpos_slider = background_load( screen_surf)
 
     started = False
     dead = False
@@ -342,6 +335,24 @@ def game_loop():
                 # checking for quit
                 bool_running = False
                 return
+            elif started and current_event.type == pygame.KEYDOWN:
+                if current_event.key == pygame.K_ESCAPE:
+                    print("ESCAPE")
+                    started = False
+                    dead = True
+                    pygame.mixer.music.stop()
+
+                    # return to initial screen
+
+                    # screen_surf.blit(pygame.transform.scale(background, bg_size), (0, 0))
+                    # background.blit(globe.Island.img.convert(), (0, 0))
+                    prob_slider.kill()  # Assuming prob_slider is a pygame_gui element, remove it from the UI
+                    initpos_slider.kill()  # Remove other GUI elements similarly
+
+                    background, coin_surf, tree_surf, squirrel_surf, prob_slider, initpos_slider = background_load( screen_surf)
+
+                    # bool_running = False
+                    # return
 
             elif not started and current_event.type == pygame.KEYDOWN:
 
@@ -446,7 +457,7 @@ def background_load(screen_surf) -> tuple[pygame.Surface, pygame.Surface, pygame
     # live initpos values
     xpos = background.get_rect().center[0] + 90
     ypos = background.get_rect().center[1] + 113
-    text_surface_initpos = font.render(f"{globe.Squirrel.init_pos}", True, (255, 255, 255))
+    text_surface_initpos = font.render(f"{globe.Squirrel.cur_pos}", True, (255, 255, 255))
 
     # Squirrel Surface
     squirrel_surf = return_surface(
@@ -483,7 +494,7 @@ def background_load(screen_surf) -> tuple[pygame.Surface, pygame.Surface, pygame
 
     prob_slider = pygame_gui.elements.UIHorizontalSlider(relative_rect=pygame.Rect(globe.Window.probslider_pos,
                                                                                    globe.Window.probslider_size),
-                                                         start_value=.5,
+                                                         start_value=globe.Squirrel.p_right,
                                                          value_range=(0.0, 1.0),
                                                          manager=ui_manager)
     initpos_slider = pygame_gui.elements.UIHorizontalSlider(relative_rect=pygame.Rect(globe.Window.initposslider_pos,
@@ -508,7 +519,7 @@ def background_load(screen_surf) -> tuple[pygame.Surface, pygame.Surface, pygame
     globe.Game.clock.tick(globe.Game.fps)  # I am not sure what this does
     pygame.display.flip()  # updating the frame
 
-    return background, coin_surf, tree_surf, squirrel_surf, prob_slider, initpos_slider
+    return (background, coin_surf, tree_surf, squirrel_surf, prob_slider, initpos_slider)
 
 
 def update_background(screen_surf, background: pygame.Surface, coin_surf, tree_surf, squirrel_surf, bg_size):

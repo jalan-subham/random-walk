@@ -1,9 +1,10 @@
-
 # -*- coding: utf-8 -*-
 
-import pygame
 # import pygame_gui
 import os
+
+import pygame
+
 # import math
 # for math.e, for intelligently handling Squirel.height
 # this file includes all the parameters, variables, and initialisers
@@ -11,11 +12,10 @@ import os
 
 
 class Window(object):
-
     asp_ratio = 2880 / 1442  # w:h, longer height to fit GUI Interactives
 
     width = 1600  # in px
-    height = width * asp_ratio ** -1  # in px
+    height = width * asp_ratio**-1  # in px
 
     size = (width, height)
 
@@ -35,15 +35,18 @@ class Window(object):
     initposslider_pos = (width / 2 - initposslider_size[0] / 2, height / 2 + 140)
     initposslider_message = "Set initial position       "
 
-    icon = pygame.image.load(os.path.join(
-        os.path.dirname(__file__), "../assets/image/plaksha.png"))
+    icon = pygame.image.load(
+        os.path.join(os.path.dirname(__file__), "../assets/image/plaksha.png")
+    )
     rel_padding = 0.13
     hor_padding = rel_padding * width
 
-    main_music = os.path.join(os.path.dirname(
-        __file__), "../assets/music/rock_around.mp3")
-    death_music = os.path.join(os.path.dirname(
-        __file__), "../assets/music/pacman_die.mp3")
+    main_music = os.path.join(
+        os.path.dirname(__file__), "../assets/music/rock_around.mp3"
+    )
+    death_music = os.path.join(
+        os.path.dirname(__file__), "../assets/music/pacman_die.mp3"
+    )
 
     fontpath = os.path.join(os.path.dirname(__file__), "../assets/fonts/courier.ttf")
     font_size = 30
@@ -53,14 +56,14 @@ class Window(object):
 
 # Island globals
 class Island(object):
-
-    img = pygame.image.load(os.path.join(
-        os.path.dirname(__file__), "../assets/image/island-final.png"))
+    img = pygame.image.load(
+        os.path.join(os.path.dirname(__file__), "../assets/image/island-final.png")
+    )
 
     asp_ratio = 2880 / 1442  # w:h
 
     width = Window.width  # in px
-    height = width * asp_ratio ** -1  # in px
+    height = width * asp_ratio**-1  # in px
 
     size = (width, height)
 
@@ -71,7 +74,6 @@ class Island(object):
 
 # Squirrel globals
 class Squirrel(object):
-
     asp_ratio = 1 / 1  # w:h
     # * (math.e ** (-Island.length / 1000))
     # !! this makes it very necessary to define island properties before squirel
@@ -85,24 +87,27 @@ class Squirrel(object):
 
     rel_height = 0.67  # squirel stands 2 / 3 of island image height, from top
 
-    img = pygame.image.load(os.path.join(
-        os.path.dirname(__file__), "../assets/image/squirrel.png"))
+    img = pygame.image.load(
+        os.path.join(os.path.dirname(__file__), "../assets/image/squirrel.png")
+    )
     img = pygame.transform.scale(img, size)
     # reversed image to save time
     rev_img = pygame.transform.flip(img, True, False)
 
-    splash_img = pygame.image.load(os.path.join(
-        os.path.dirname(__file__), "../assets/image/splash.png"))
-    splash_img = pygame.transform.scale(
-        splash_img, size)  # reversed image to save time
+    splash_img = pygame.image.load(
+        os.path.join(os.path.dirname(__file__), "../assets/image/splash.png")
+    )
+    splash_img = pygame.transform.scale(splash_img, size)  # reversed image to save time
 
     # set colorkeys
     img.set_colorkey((0, 0, 0))
     rev_img.set_colorkey((0, 0, 0))
     splash_img.set_colorkey((0, 0, 0))
 
-    rel_grid_pos = [Window.rel_padding + i *
-                    (1 - 2 * Window.rel_padding) / Island.length for i in range(0, Island.length + 1)]
+    rel_grid_pos = [
+        Window.rel_padding + i * (1 - 2 * Window.rel_padding) / Island.length
+        for i in range(0, Island.length + 1)
+    ]
 
     rel_death_y = 5 / 6
     death_y = rel_death_y * Island.height
@@ -120,7 +125,6 @@ class Squirrel(object):
 
 # Coin globals
 class Coin(object):  # Coin_Window actually
-
     asp_ratio = 1 / 1  # w:h
 
     height = Island.height * (1 / 4)
@@ -131,10 +135,12 @@ class Coin(object):  # Coin_Window actually
     rel_pos = (1 - 1.79 / 3, 1.03 / 2)
     abs_pos = (rel_pos[0] * Island.width, rel_pos[1] * Island.height)
 
-    heads_img = pygame.image.load(os.path.join(
-        os.path.dirname(__file__), "../assets/image/heads.png"))
-    tails_img = pygame.image.load(os.path.join(
-        os.path.dirname(__file__), "../assets/image/tails.png"))
+    heads_img = pygame.image.load(
+        os.path.join(os.path.dirname(__file__), "../assets/image/heads.png")
+    )
+    tails_img = pygame.image.load(
+        os.path.join(os.path.dirname(__file__), "../assets/image/tails.png")
+    )
 
     coin_size = (size[0] / (2.5), size[1] / 2.5)
     heads_img = pygame.transform.scale(heads_img, coin_size)
@@ -143,7 +149,6 @@ class Coin(object):  # Coin_Window actually
 
 # Coin globals
 class Tree(object):  # Coin_Window actually
-
     asp_ratio = 1 / 1  # w:h
 
     height = Island.height * (1 / 4)
@@ -154,7 +159,7 @@ class Tree(object):  # Coin_Window actually
     rel_pos = (1.79 / 3, 0.9 / 2)
     abs_pos = (rel_pos[0] * Island.width, rel_pos[1] * Island.height)
 
-    rel_padding = 1/10
+    rel_padding = 1 / 10
 
     # has 1 where the node is
     nodes = [[0 for _ in range(0, Island.length + 1)]]
@@ -180,10 +185,8 @@ class Tree(object):  # Coin_Window actually
 
 # Game globals
 class Game(object):
-
     fps = 30  # fps
     clock = pygame.time.Clock()
 
     border_width_limit = int(5 * Island.size[0] * Window.rel_padding)
-    border_width = int(abs(Squirrel.cur_pos) *
-                       border_width_limit / Island.length)
+    border_width = int(abs(Squirrel.cur_pos) * border_width_limit / Island.length)
