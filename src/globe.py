@@ -28,7 +28,7 @@ class Window(object):
     end_message = "Press spacebar to play again!"
 
     probslider_size = (200, 30)
-    probslider_pos = (width / 2 - probslider_size[0] / 2, height / 2 + 70)
+    probslider_pos = (width / 2 - probslider_size[0] / 2, height / 2 + 55)
     probslider_message = "Set probability of jump direction"
 
     initposslider_size = (200, 30)
