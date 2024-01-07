@@ -1,9 +1,13 @@
 
+import sys
+import os
+sys.path.append(os.path.abspath("../src/"))
+# import src.globe as globe
+from src import globe
+
 import pygame
 import random
-from code import globe
 import math
-
 
 def next_row(num_hop: int) -> list:
 
