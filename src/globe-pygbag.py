@@ -147,8 +147,7 @@ class Coin(object):  # Coin_Window actually
     tails_img = pygame.transform.scale(tails_img, coin_size)
 
 
-# Coin globals
-class Tree(object):  # Coin_Window actually
+class Tree(object):
     asp_ratio = 1 / 1  # w:h
 
     height = Island.height * (1 / 4)

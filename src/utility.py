@@ -451,7 +451,8 @@ def game_loop():
 
                     pygame.mixer.music.load(globe.Window.main_music, namehint="mp3")
                     # fades into 100 volume in 5ms
-                    pygame.mixer.music.play(loops=-1, start=3.3, fade_ms=5)
+                    # pygame.mixer.music.play(loops=-1, start=3.3, fade_ms=5)
+                    pygame.mixer.music.play(loops=-1, start=20, fade_ms=5)
 
             elif current_event.type == pygame.VIDEORESIZE:
                 # in the running frame it is updated later on:

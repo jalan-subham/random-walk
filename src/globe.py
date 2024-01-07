@@ -41,8 +41,13 @@ class Window(object):
     rel_padding = 0.13
     hor_padding = rel_padding * width
 
+    """
     main_music = os.path.join(
         os.path.dirname(__file__), "../assets/music/rock_around.mp3"
+    )
+    """
+    main_music = os.path.join(
+        os.path.dirname(__file__), "../assets/music/aao_twist_karein.mp3"
     )
     death_music = os.path.join(
         os.path.dirname(__file__), "../assets/music/pacman_die.mp3"
