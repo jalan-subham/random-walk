@@ -40,14 +40,14 @@ class Window(object):
 
     """
     main_music = os.path.join(
-        os.path.dirname(__file__), "../assets/music/rock_around.mp3"
+        os.path.dirname(__file__), "../assets/music/rock_around.ogg"
     )
     """
     main_music = os.path.join(
-        os.path.dirname(__file__), "../assets/music/aao_twist_karein.mp3"
+        os.path.dirname(__file__), "../assets/music/aao_twist_karein.ogg"
     )
     death_music = os.path.join(
-        os.path.dirname(__file__), "../assets/music/pacman_die.mp3"
+        os.path.dirname(__file__), "../assets/music/pacman_die.ogg"
     )
 
     fontpath = os.path.join(os.path.dirname(__file__), "../assets/fonts/courier.ttf")
